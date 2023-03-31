@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace OverParse
+namespace PIGNUMBERS
 {
     /// <summary>
     /// SelectColumn.xaml の相互作用ロジック
@@ -17,7 +17,7 @@ namespace OverParse
             Damage.IsChecked = Dmg;
             Damaged.IsChecked = Dmgd;
             PlayerDPS.IsChecked = DPS;
-            PlayerJA.IsChecked = JA;
+
             Critical.IsChecked = Cri;
             MaxHit.IsChecked = Hit;
             AtkName.IsChecked = Atk;
@@ -32,7 +32,7 @@ namespace OverParse
             Dmg = (bool)Damage.IsChecked;
             Dmgd = (bool)Damaged.IsChecked;
             DPS = (bool)PlayerDPS.IsChecked;
-            JA = (bool)PlayerJA.IsChecked;
+
             Cri = (bool)Critical.IsChecked;
             Hit = (bool)MaxHit.IsChecked;
             Atk = (bool)AtkName.IsChecked;

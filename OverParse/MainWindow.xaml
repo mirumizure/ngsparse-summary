@@ -1,18 +1,17 @@
-﻿<!-- TODO: Optimize the shit out of this mess -->
-<Window x:Class="OverParse.MainWindow"
+﻿<Window x:Class="PIGNUMBERS.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OverParse"
-        xmlns:Properties="clr-namespace:OverParse.Properties"
+        xmlns:local="clr-namespace:PIGNUMBERS"
+        xmlns:Properties="clr-namespace:PIGNUMBERS.Properties"
         mc:Ignorable="d"
         WindowStyle="None" AllowsTransparency="True"
         Activated="Window_Activated" Deactivated="Window_Deactivated"
         ResizeMode="CanResizeWithGrip" StateChanged="Window_StateChanged"
         MouseDown="Window_MouseDown" Closing="Window_Closing"
         x:Name="TheWindow"
-        Title="OverParse" Height="275" Width="670">
+        Title="PIGNUMBERS" Height="275" Width="670">
 
     <Window.Background>
         <SolidColorBrush x:Name="MainBack" Color="#FF0A0A0A" />
@@ -103,24 +102,18 @@
                 <MenuItem Style="{StaticResource topmenu}" Header="Logging">
                     <MenuItem Style="{StaticResource submenu}" Header="End Encounter" x:Name="EndEncounter" InputGestureText="Ctrl+Shift+E" Click="EndEncounter_Click"/>
                     <MenuItem Style="{StaticResource submenu}" Header="Discard Encounter" x:Name="EndEncounterNoLog" InputGestureText="Ctrl+Shift+R" Click="EndEncounterNoLog_Click"/>
-                    <Separator />
-                    <MenuItem Style="{StaticResource submenu}" Header="Automatically End Encounters" x:Name="AutoEndEncounters" IsCheckable="True" IsChecked="False" Click="AutoEndEncounters_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Set Encounter Timeout..." x:Name="SetEncounterTimeout" Click="SetEncounterTimeout_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Automatically Copy to Clipboard" x:Name="LogToClipboard" IsCheckable="True" IsChecked="False" Click="LogToClipboard_Click"/>
-                    <Separator />
-                    <MenuItem Style="{StaticResource submenu}" Header="Open Logs Folder" Click="OpenLogsFolder_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Session Logs" x:Name="SessionLogs">
-                        <MenuItem Style="{StaticResource submenu}" Header="No logs recorded in this session." x:Name="SessionLogPlaceholder" IsEnabled="False"/>
-                    </MenuItem>
+                    <MenuItem Style="{StaticResource submenu}" Header="Manual Mode" IsCheckable="True" x:Name="EncounterManualMode" Click="EncounterManualMode_Click"/>
+
+                    
                 </MenuItem>
                 <MenuItem Style="{StaticResource topmenu}" Header="Parsing">
                     <MenuItem Style="{StaticResource submenu}" Header="Hide Enemies/NPCs" IsCheckable="True" IsChecked="True" x:Name="FilterPlayers" Click="FilterPlayers_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Damage Separation">
-                        <MenuItem Style="{StaticResource submenu}" Header="Separate Zanverse" x:Name="SeparateZanverse" IsCheckable="True" IsChecked="False" Click="SeparateZanverse_Click"/>
-                        <MenuItem Style="{StaticResource submenu}" Header="Separate Status Ailment" x:Name="SeparateStatus" IsCheckable="True" IsChecked="False" Click="SeparateStatus_Click"/>
-                        <MenuItem Style="{StaticResource submenu}" Header="Separate Hero Time Finish" x:Name="SeparateFinish" IsCheckable="True" IsChecked="False" Click="SeparateFinish_Click"/>
-                    </MenuItem>
-                    <MenuItem Style="{StaticResource submenu}" Header="Attack Mode Separation">
+                    <!--MenuItem Style="{StaticResource submenu}" Header="Damage Separation"-->
+                        <!--MenuItem Style="{StaticResource submenu}" Header="Separate Zanverse" x:Name="SeparateZanverse" IsCheckable="True" IsChecked="False" Click="SeparateZanverse_Click"/-->
+                        <!--MenuItem Style="{StaticResource submenu}" Header="Separate Status Ailment" x:Name="SeparateStatus" IsCheckable="True" IsChecked="False" Click="SeparateStatus_Click"/-->
+                        <!--MenuItem Style="{StaticResource submenu}" Header="Separate Hero Time Finish" x:Name="SeparateFinish" IsCheckable="True" IsChecked="False" Click="SeparateFinish_Click"/-->
+                    <!--/MenuItem-->
+                    <!--<MenuItem Style="{StaticResource submenu}" Header="Attack Mode Separation">
                         <MenuItem Style="{StaticResource submenu}" Header="Separate A.I.S." x:Name="SeparateAIS" IsCheckable="True" IsChecked="False" Click="SeparateAIS_Click"/>
                         <MenuItem Style="{StaticResource submenu}" Header="Separate Dark Blast" x:Name="SeparateDB" IsCheckable="True" IsChecked="False" Click="SeparateDB_Click"/>
                         <MenuItem Style="{StaticResource submenu}" Header="Separate Rideroid" x:Name="SeparateRide" IsCheckable="True" IsChecked="False" Click="SeparateRide_Click" />
@@ -133,12 +126,12 @@
                         <MenuItem Style="{StaticResource submenu}" Header="Hide Rideroid" x:Name="HideRide" IsCheckable="True" IsChecked="False" Click="HideRide_Click" />
                         <MenuItem Style="{StaticResource submenu}" Header="Hide Photon Weapons" x:Name="HidePwp" IsCheckable="True" IsChecked="False" Click="HidePwp_Click" />
                         <MenuItem Style="{StaticResource submenu}" Header="Hide Laconium Sword" x:Name="HideLsw" IsCheckable="True" IsChecked="False" Click="HideLsw_Click" />
-                    </MenuItem>
+                    </MenuItem>-->
                     <Separator />
                     <MenuItem Style="{StaticResource submenu}" Header="Anonymize Names" IsCheckable="True" IsChecked="False" x:Name="AnonymizeNames" Click="AnonymizeNames_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Hide All Other Players" IsCheckable="True" IsChecked="False" x:Name="Onlyme" Click="Onlyme_Click" />
+                    <!--MenuItem Style="{StaticResource submenu}" Header="Hide All Other Players" IsCheckable="True" IsChecked="False" x:Name="Onlyme" Click="Onlyme_Click" /-->
                     <MenuItem Style="{StaticResource submenu}" Header="Change DPS Format" IsCheckable="True" IsChecked="False" x:Name="DPSFormat" Click="DPSFormat_Click" />
-                    <MenuItem Style="{StaticResource submenu}" Header="Round JA/Crit Percents" IsCheckable="True" IsChecked="False" x:Name="Nodecimal" Click="Nodecimal_Click" />
+                    <MenuItem Style="{StaticResource submenu}" Header="Round Crit Percents" IsCheckable="True" IsChecked="False" x:Name="Nodecimal" Click="Nodecimal_Click" />
                     <MenuItem Style="{StaticResource submenu}" Header="Change Data Update interval" Click="ChangeInterval_Click" />
                 </MenuItem>
                 <MenuItem Style="{StaticResource topmenu}" Header="Window">
@@ -168,24 +161,25 @@
                     <MenuItem Style="{StaticResource submenu}" Header="Highlight Own Damage" IsCheckable="True" IsChecked="True" x:Name="HighlightYourDamage" Click="HighlightYourDamage_Click"/>
                 </MenuItem>
                 <MenuItem Style="{StaticResource topmenu}" Header="Other">
-                    <MenuItem Style="{StaticResource submenu}" Header="Select Languages">
+                    <!--<MenuItem Style="{StaticResource submenu}" Header="Select Languages">
                         <MenuItem Style="{StaticResource submenu}" x:Name="English" IsCheckable="True" IsChecked="False" Header="English" Click="SelectEnglish" />
                         <MenuItem Style="{StaticResource submenu}" x:Name="TransitionalChinese" IsCheckable="True" IsChecked="False" Header="繁體中文" Click="SelectTransitionalChinese" />
                         <MenuItem Style="{StaticResource submenu}" x:Name="Japanese" IsCheckable="True" IsChecked="False" Header="日文語" Click="SelectJapanese" />
-                    </MenuItem>
+                    </MenuItem>-->
                     <MenuItem Style="{StaticResource submenu}" Header="About" x:Name="About" Click="About_Click"/>
                     <Separator />
                     <MenuItem Header="Low Priority Mode" Click="LowResources_Click" x:Name="LowResources" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
                     <MenuItem Header="Disable GPU Rendering" Click="CPUdraw_Click" x:Name="CPUdraw" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
                     <MenuItem Header="Show Updated Time (Debug)" Click="Clock_Click" x:Name="Clock" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
                     <Separator />
-                    <MenuItem Header="Join Discord" Click="Discord_Click" Style="{StaticResource submenu}" />
-                    <MenuItem Header="Open github" Click="Github_Click" Style="{StaticResource submenu}" />
+                    
+                    <MenuItem Header="Open Patreon" Click="Patreon_Click" Style="{StaticResource submenu}" />
+                    <MenuItem Header="Open Github" Click="Github_Click" Style="{StaticResource submenu}" />
                     <Separator />
-                    <MenuItem Style="{StaticResource submenu}" Header="Skip DLL Update" x:Name="Skipdll" Click="SkipPlugin_Click" />
-                    <MenuItem Style="{StaticResource submenu}" Header="Reselect PSO2bin..." x:Name="ResetLogFolder" Click="ResetLogFolder_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Force Plugin Update..." x:Name="PluginUpdate" Click="UpdatePlugin_Click"/>
-                    <MenuItem Style="{StaticResource submenu}" Header="Reset OverParse..." x:Name="Reset" Click="ResetOverParse"/>
+                    <!--MenuItem Style="{StaticResource submenu}" Header="Skip DLL Update" x:Name="Skipdll" Click="SkipPlugin_Click" /-->
+                    <MenuItem Style="{StaticResource submenu}" Header="Reselect pso2_bin..." x:Name="ResetLogFolder" Click="ResetLogFolder_Click"/>
+                    
+                    <MenuItem Style="{StaticResource submenu}" Header="Reset PIGNUMBERS..." x:Name="Reset" Click="ResetPIGNUMBERS"/>
                 </MenuItem>
             </Menu>
             <Label x:Name="Datetime" Foreground="#FFFFFFFF" Padding="3,3,3,3" Margin="230,0,0,0" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left"/>
@@ -251,14 +245,6 @@
                             </GridViewColumn.CellTemplate>
                         </GridViewColumn>
 
-                        <GridViewColumn Header="JA %" x:Name="JAColumn" Width="{Binding ElementName=JAH, Path=ActualWidth}">
-                            <GridViewColumn.CellTemplate>
-                                <DataTemplate>
-                                    <TextBlock Text="{Binding JAPercent}" TextAlignment="Right" Margin="-5,-1,-5,-1" Padding="0" />
-                                </DataTemplate>
-                            </GridViewColumn.CellTemplate>
-                        </GridViewColumn>
-
                         <GridViewColumn Header="Crit %" x:Name="CriColumn" Width="{Binding ElementName=CriH, Path=ActualWidth}">
                             <GridViewColumn.CellTemplate>
                                 <DataTemplate>
@@ -294,8 +280,8 @@
                     <ColumnDefinition x:Name="DmgHC" Width="78"/>
                     <ColumnDefinition x:Name="DmgDHC" Width="52" />
                     <ColumnDefinition x:Name="DPSHC" Width="44"/>
-                    <ColumnDefinition x:Name="JAHC" Width="44"/>
                     <ColumnDefinition x:Name="CriHC" Width="44"/>
+
                     <ColumnDefinition x:Name="MdmgHC" Width="62"/>
                     <ColumnDefinition x:Name="AtkHC" Width="1.7*"/>
                 </Grid.ColumnDefinitions>
@@ -304,10 +290,10 @@
                 <Grid Grid.Column="2" x:Name="DmgH" />
                 <Grid Grid.Column="3" x:Name="DmgdH" />
                 <Grid Grid.Column="4" x:Name="DPSH" />
-                <Grid Grid.Column="5" x:Name="JAH" />
-                <Grid Grid.Column="6" x:Name="CriH" />
-                <Grid Grid.Column="7" x:Name="MdmgH" />
-                <Grid Grid.Column="8" x:Name="AtkH" />
+                <Grid Grid.Column="5" x:Name="CriH" />
+                <Grid Grid.Column="6" x:Name="MdmgH" />
+
+                <Grid Grid.Column="7" x:Name="AtkH" />
             </Grid>
 
             <Rectangle x:Name="EncounterIndicator" Grid.Row="2" Height="2" VerticalAlignment="Top"  Fill="White" IsHitTestVisible="False" />

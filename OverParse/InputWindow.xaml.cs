@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace OverParse
+namespace PIGNUMBERS
 {
     public partial class InputWindow : Window
     {

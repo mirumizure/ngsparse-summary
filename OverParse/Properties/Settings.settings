@@ -1,5 +1,5 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="OverParse.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="PIGNUMBERS.Properties" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Path" Type="System.String" Scope="User">
@@ -174,7 +174,7 @@
       <Value Profile="(Default)">False</Value>
     </Setting>
     <Setting Name="Updateinv" Type="System.Int32" Scope="User">
-      <Value Profile="(Default)">1000</Value>
+      <Value Profile="(Default)">200</Value>
     </Setting>
     <Setting Name="skills_tw_hk" Type="System.String" Scope="User">
       <Value Profile="(Default)">False</Value>
@@ -186,6 +186,9 @@
       <Value Profile="(Default)">True</Value>
     </Setting>
     <Setting Name="SeparateStatus" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="ManualMode" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
   </Settings>

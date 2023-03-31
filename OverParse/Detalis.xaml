@@ -1,9 +1,9 @@
-﻿<Window x:Class="OverParse.Detalis"
+﻿<Window x:Class="PIGNUMBERS.Detalis"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:OverParse"
+        xmlns:local="clr-namespace:PIGNUMBERS"
         mc:Ignorable="d"
         WindowStartupLocation="CenterOwner"
         Title="Detalis" Height="300" Width="300">
@@ -20,8 +20,6 @@
         <Label x:Name="Damaged" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="95,94,0,0"/>
         <Label Content="DPS" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="10,115,0,0" RenderTransformOrigin="2.295,2.281" />
         <Label x:Name="DPS" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="95,115,0,0"/>
-        <Label Content="Just Attack" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="10,136,0,0" />
-        <Label x:Name="JA" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="95,136,0,0"/>
         <Label Content="Critical" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="10,157,0,0" />
         <Label x:Name="Critical" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="95,157,0,0"/>
         <Label Content="Max Hit" HorizontalAlignment="Left" VerticalAlignment="Top" Padding="0" Margin="10,178,0,0" />

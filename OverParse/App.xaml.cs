@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace OverParse
+namespace PIGNUMBERS
 {
     /// <summary>
     /// App.xaml の相互作用ロジック

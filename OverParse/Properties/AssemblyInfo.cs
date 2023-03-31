@@ -7,13 +7,13 @@ using System.Windows;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("OverParse")]
-[assembly: AssemblyDescription("OverParse - Streamlined Damage Parser")]
+[assembly: AssemblyTitle("pignumbers")]
+[assembly: AssemblyDescription("pignumbers")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("OverParse")]
-[assembly: AssemblyProduct("OverParse")]
-[assembly: AssemblyCopyright("mysterious64")]
-[assembly: AssemblyTrademark("OverParse")]
+[assembly: AssemblyCompany("pignumbers")]
+[assembly: AssemblyProduct("pignumbers")]
+[assembly: AssemblyCopyright("pignumbers")]
+[assembly: AssemblyTrademark("pignumbers")]
 [assembly: AssemblyCulture("")]
 
 // ComVisible を false に設定すると、このアセンブリ内の型は COM コンポーネントから
@@ -51,5 +51,5 @@ using System.Windows;
 // すべての値を指定するか、次を使用してビルド番号とリビジョン番号を既定に設定できます
 // 既定値にすることができます:
 // [assembly: AssemblyVersion("1.0.*")]
-[assembly: AssemblyVersion("3.1.2.0")]
-[assembly: AssemblyFileVersion("3.1.2.0")]
+[assembly: AssemblyVersion("4.0.0.0")]
+[assembly: AssemblyFileVersion("4.0.0.0")]

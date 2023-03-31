@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -14,7 +15,7 @@ using System.Windows.Threading;
 using NHotkey;
 using NHotkey.Wpf;
 
-namespace OverParse
+namespace PIGNUMBERS
 {
     // TODO: Code Optimization
     public partial class MainWindow : Window
@@ -55,12 +56,12 @@ namespace OverParse
                 RenderOptions.ProcessRenderMode = RenderMode.Default;
             }
 
-            try { Directory.CreateDirectory("Logs"); }
+        /*    try { Directory.CreateDirectory("Logs"); }
             catch
             {
-                MessageBox.Show("Overparse cannot save logs at the moment. \n\nPlease check that you are running Overparse as an administrator or that your account has read/write access to this directory", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("PIGNUMBERS cannot save logs at the moment. \n\nPlease check that you are running PIGNUMBERS as an administrator or that your account has read/write access to this directory", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
-            }
+            }*/
 
             //Directory.CreateDirectory("Debug");
 
@@ -72,14 +73,14 @@ namespace OverParse
             //Console.SetOut(streamwriter);
             //Console.SetError(streamwriter);
 
-            //Console.WriteLine("OVERPARSE V." + Assembly.GetExecutingAssembly().GetName().Version);
+            //Console.WriteLine("PIGNUMBERS V." + Assembly.GetExecutingAssembly().GetName().Version);
 
-            if (Properties.Settings.Default.UpgradeRequired && !Properties.Settings.Default.ResetInvoked)
+          /*  if (Properties.Settings.Default.UpgradeRequired && !Properties.Settings.Default.ResetInvoked)
             {
                 //Console.WriteLine("Upgrading settings");
                 Properties.Settings.Default.Upgrade();
                 Properties.Settings.Default.UpgradeRequired = false;
-            }
+            }*/
 
             Properties.Settings.Default.ResetInvoked = false;
 
@@ -106,42 +107,30 @@ namespace OverParse
                 Left = 50;
             }
 
-            AutoEndEncounters.IsChecked = Properties.Settings.Default.AutoEndEncounters;
-            SetEncounterTimeout.IsEnabled = AutoEndEncounters.IsChecked;
-            SeparateZanverse.IsChecked = Properties.Settings.Default.SeparateZanverse;
-            SeparateStatus.IsChecked = Properties.Settings.Default.SeparateStatus;
-            SeparateFinish.IsChecked = Properties.Settings.Default.SeparateFinish;
-            SeparateAIS.IsChecked = Properties.Settings.Default.SeparateAIS;
-            SeparateDB.IsChecked = Properties.Settings.Default.SeparateDB;
-            SeparateRide.IsChecked = Properties.Settings.Default.SeparateRide;
-            SeparatePwp.IsChecked = Properties.Settings.Default.SeparatePwp;
-            SeparateLsw.IsChecked = Properties.Settings.Default.SeparateLsw;
 
-            HidePlayers.IsChecked = Properties.Settings.Default.HidePlayers;
-            HideAIS.IsChecked = Properties.Settings.Default.HideAIS;
-            HideDB.IsChecked = Properties.Settings.Default.HideDB;
-            HideRide.IsChecked = Properties.Settings.Default.HideRide;
-            HidePwp.IsChecked = Properties.Settings.Default.HidePwp;
-            HideLsw.IsChecked = Properties.Settings.Default.HideLsw;
 
+         
+            //SeparateZanverse.IsChecked = Properties.Settings.Default.SeparateZanverse;
+           // SeparateStatus.IsChecked = Properties.Settings.Default.SeparateStatus;
+           // SeparateFinish.IsChecked = Properties.Settings.Default.SeparateFinish;
+          
             //NoMyName.IsChecked = Properties.Settings.Default.NomyName;
-            Onlyme.IsChecked = Properties.Settings.Default.Onlyme;
+            //Onlyme.IsChecked = Properties.Settings.Default.Onlyme;
             DPSFormat.IsChecked = Properties.Settings.Default.DPSformat;
             Nodecimal.IsChecked = Properties.Settings.Default.Nodecimal;
+
             ClickthroughMode.IsChecked = Properties.Settings.Default.ClickthroughEnabled;
-            LogToClipboard.IsChecked = Properties.Settings.Default.LogToClipboard;
+         
             AlwaysOnTop.IsChecked = Properties.Settings.Default.AlwaysOnTop;
             AutoHideWindow.IsChecked = Properties.Settings.Default.AutoHideWindow;
+
+            EncounterManualMode.IsChecked = Properties.Settings.Default.ManualMode;
 
             ShowDamageGraph.IsChecked = Properties.Settings.Default.ShowDamageGraph; ShowDamageGraph_Click(null, null);
             AnonymizeNames.IsChecked = Properties.Settings.Default.AnonymizeNames; AnonymizeNames_Click(null, null);
             HighlightYourDamage.IsChecked = Properties.Settings.Default.HighlightYourDamage; HighlightYourDamage_Click(null, null);
             Clock.IsChecked = Properties.Settings.Default.Clock; Clock_Click(null, null);
-            SeparateAIS_Click(null, null);
-            SeparateDB_Click(null, null);
-            SeparateRide_Click(null, null);
-            SeparatePwp_Click(null, null);
-            SeparateLsw_Click(null, null);
+            
             HandleWindowOpacity(); HandleListOpacity();
             LoadListColumn();
 
@@ -161,25 +150,25 @@ namespace OverParse
             }
             catch
             {
-                MessageBox.Show("Hot keys are currently not working for this instance of Overparse. \n\nPlease check that you are not running multiple instances of Overparse", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Hot keys are currently not working for this instance of PIGNUMBERS. \n\nPlease check that you are not running multiple instances of PIGNUMBERS", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
-            string[] tmp_skills = new string[0];
+            List<String> tmp_skills = new List<String>();
 
             // skills_en.csv
-            Console.WriteLine("Updating skills_en.csv");
+            Console.WriteLine("Updating skills.csv");
             try
             {
                 WebClient client = new WebClient();
-                Stream stream = client.OpenRead("https://raw.githubusercontent.com/VariantXYZ/PSO2ACT/master/PSO2ACT/skills.csv");
-                using (StreamReader webreader = new StreamReader(stream))
+                Stream stream = File.Open("skills.csv", FileMode.Open);
+                using (StreamReader sr = new StreamReader(stream))
                 {
-                    String content = webreader.ReadToEnd();
-                    File.WriteAllText("skills_en.csv", content);
-                    if (Properties.Settings.Default.skills_en == "True")
-                    {
-                        tmp_skills = content.Split('\n');
-                        English.IsChecked = true;
+                  
+
+                    string line;
+                    while ((line = sr.ReadLine()) != null) {
+                        tmp_skills.Add(line);
+
                     }
                 }
                 client.Dispose();
@@ -187,130 +176,11 @@ namespace OverParse
             }
             catch (Exception ex)
             {
-                Console.WriteLine($"skills_en.csv update failed: {ex.ToString()}");
-                if (File.Exists("skills_en.csv"))
-                {
-                    MessageBox.Show("OverParse failed to update its skill mappings. This usually means your connection hiccuped for a moment.\n\nA local copy will be used instead. If you'd like to try and update again, just relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    if (Properties.Settings.Default.skills_en == "True")
-                    {
-                        tmp_skills = File.ReadAllLines("skills_en.csv");
-                        English.IsChecked = true;
-                    }
-
-                }
-                else
-                {
-                    MessageBox.Show("OverParse failed to update its skill mappings. This usually means your connection hiccuped for a moment.\n\nSince you have no skill mappings downloaded, all attacks will be marked as \"Unknown\". If you'd like to try and update again, please relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    tmp_skills = new string[0];
-                }
+                Console.WriteLine($"skills.csv update failed: {ex.ToString()}");
+                
             }
-
-            // skills_tw_hk.csv
-            Console.WriteLine("Updating skills_tw.csv");
-            try
-            {
-                WebClient client = new WebClient();
-                Stream stream = client.OpenRead("https://wilsonltl.github.io/img/skill_tw_hk.csv");
-                using (StreamReader webreader = new StreamReader(stream))
-                {
-                    String content = webreader.ReadToEnd();
-                    File.WriteAllText("skills_tw_hk.csv", content);
-                    if (Properties.Settings.Default.skills_tw_hk == "True")
-                    {
-                        tmp_skills = content.Split('\n');
-                        TransitionalChinese.IsChecked = true;
-                    }
-                }
-                client.Dispose();
-                stream.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"skills_tw_hk.csv update failed: {ex.ToString()}");
-                if (File.Exists("skills_tw_hk.csv"))
-                {
-                    MessageBox.Show("OverParse failed to update its skill mappings. This usually means your connection hiccuped for a moment.\n\nA local copy will be used instead. If you'd like to try and update again, just relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    if (Properties.Settings.Default.skills_tw_hk == "True")
-                    {
-                        tmp_skills = File.ReadAllLines("skills_tw_hk.csv");
-                        TransitionalChinese.IsChecked = true;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("OverParse failed to update its skill mappings. This usually means your connection hiccuped for a moment.\n\nSince you have no skill mappings downloaded, all attacks will be marked as \"Unknown\". If you'd like to try and update again, please relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    tmp_skills = new string[0];
-                }
-            }
-
-            // skills_ja.csv
-            Console.WriteLine("Updating skills_ja.csv");
-            try
-            {
-                WebClient client = new WebClient();
-                Stream stream = client.OpenRead("https://wilsonltl.github.io/img/skills_ja.csv");
-                using (StreamReader webreader = new StreamReader(stream))
-                {
-                    String content = webreader.ReadToEnd();
-                    File.WriteAllText("skills_ja.csv", content);
-                    if (Properties.Settings.Default.skills_ja == "True")
-                    {
-                        tmp_skills = content.Split('\n');
-                        Japanese.IsChecked = true;
-                    }
-                }
-                client.Dispose();
-                stream.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"skills_ja.csv update failed: {ex.ToString()}");
-                if (File.Exists("skills_ja.csv"))
-                {
-                    MessageBox.Show("OverParse failed to update its skill mappings. This usually means your connection hiccuped for a moment.\n\nA local copy will be used instead. If you'd like to try and update again, just relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    if (Properties.Settings.Default.skills_ja == "True")
-                    {
-                        tmp_skills = File.ReadAllLines("skills_ja.csv");
-                        Japanese.IsChecked = true;
-                    }
-                }
-                else
-                {
-                    MessageBox.Show("OverParse failed to update its skill mappings. This usually means your connection hiccuped for a moment.\n\nSince you have no skill mappings downloaded, all attacks will be marked as \"Unknown\". If you'd like to try and update again, please relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    tmp_skills = new string[0];
-                }
-            }
-
-            // ignoreskills.csv
-            Console.WriteLine("Updating ignoreskills.csv");
-            string[] tmp_ignore;
-            try
-            {
-                WebClient client = new WebClient();
-                Stream stream = client.OpenRead("https://raw.githubusercontent.com/mysterious64/OverParse/master/OverParse/Updates/ignoreskills.csv");
-                using (StreamReader webreader = new StreamReader(stream))
-                {
-                    String content = webreader.ReadToEnd();
-                    tmp_ignore = content.Split('\n');
-                    File.WriteAllText("ignoreskills.csv", content);
-                }
-                client.Dispose();
-                stream.Dispose();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"ignoreskills.csv update failed: {ex.ToString()}");
-                if (File.Exists("ignoreskills.csv"))
-                {
-                    MessageBox.Show("OverParse failed to update its ignore-skills mappings. This usually means your connection hiccuped for a moment.\n\nA local copy will be used instead. If you'd like to try and update again, just relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    tmp_ignore = File.ReadAllLines("ignoreskills.csv");
-                }
-                else
-                {
-                    MessageBox.Show("OverParse failed to update its ignore-skills mappings. This usually means your connection hiccuped for a moment.\n\nSince you have no skill mappings downloaded, all attacks will be marked as \"Unknown\". If you'd like to try and update again, please relaunch OverParse.", "OverParse Setup", MessageBoxButton.OK, MessageBoxImage.Information);
-                    tmp_ignore = new string[0];
-                }
-            }
+           
+        
 
             Console.WriteLine("Parsing skills.csv");
             foreach (string s in tmp_skills)
@@ -318,19 +188,9 @@ namespace OverParse
                 string[] split = s.Split(',');
                 if (split.Length > 1)
                 {
-                    skillDict.Add(split[1], split[0]);
+                    if (skillDict.ContainsKey(split[1])==false)
+                        skillDict.Add(split[1], split[0]);
                 }
-            }
-
-            Console.WriteLine("Parsing ignoreskills.csv");
-            try
-            {
-                ignoreskill = File.ReadAllLines("ignoreskills.csv");
-            }
-            catch (Exception e)
-            {
-                MessageBox.Show(e.ToString());
-                ignoreskill = new string[] { "12345678900" }; // Placeholder Value
             }
 
             //Initializing default log
@@ -362,7 +222,7 @@ namespace OverParse
                 return;
 
             string title = WindowsServices.GetActiveWindowTitle();
-            string[] relevant = { "OverParse", "OverParse Setup", "OverParse Error", "Encounter Timeout", "Phantasy Star Online 2" };
+            string[] relevant = { "PIGNUMBERS", "PIGNUMBERS Setup", "PIGNUMBERS Error", "Encounter Timeout", "Phantasy Star Online 2", "PHANTASY STAR ONLINE 2 NEW GENESIS" };
 
             if (!relevant.Contains(title))
             {
@@ -405,7 +265,6 @@ namespace OverParse
                 if (Properties.Settings.Default.ListDmg) { DmgHC.Width = new GridLength(0.8, GridUnitType.Star); } else { CombatantView.Columns.Remove(DamageColumn); DmgHC.Width = temp; }
                 if (Properties.Settings.Default.ListDmgd) { DmgDHC.Width = new GridLength(0.6, GridUnitType.Star); } else { CombatantView.Columns.Remove(DamagedColumn); DmgDHC.Width = temp; }
                 if (Properties.Settings.Default.ListDPS) { DPSHC.Width = new GridLength(0.6, GridUnitType.Star); } else { CombatantView.Columns.Remove(DPSColumn); DPSHC.Width = temp; }
-                if (Properties.Settings.Default.ListJA) { JAHC.Width = new GridLength(0.4, GridUnitType.Star); } else { CombatantView.Columns.Remove(JAColumn); JAHC.Width = temp; }
                 if (Properties.Settings.Default.ListCri) { CriHC.Width = new GridLength(0.4, GridUnitType.Star); } else { CombatantView.Columns.Remove(CriColumn); CriHC.Width = temp; }
                 if (Properties.Settings.Default.ListHit) { MdmgHC.Width = new GridLength(0.6, GridUnitType.Star); } else { CombatantView.Columns.Remove(HColumn); MdmgHC.Width = temp; }
             }
@@ -415,7 +274,6 @@ namespace OverParse
                 if (Properties.Settings.Default.ListDmg) { DmgHC.Width = new GridLength(78); } else { CombatantView.Columns.Remove(DamageColumn); DmgHC.Width = temp; }
                 if (Properties.Settings.Default.ListDmgd) { DmgDHC.Width = new GridLength(52); } else { CombatantView.Columns.Remove(DamagedColumn); DmgDHC.Width = temp; }
                 if (Properties.Settings.Default.ListDPS) { DPSHC.Width = new GridLength(44); } else { CombatantView.Columns.Remove(DPSColumn); DPSHC.Width = temp; }
-                if (Properties.Settings.Default.ListJA) { JAHC.Width = new GridLength(44); } else { CombatantView.Columns.Remove(JAColumn); JAHC.Width = temp; }
                 if (Properties.Settings.Default.ListCri) { CriHC.Width = new GridLength(44); } else { CombatantView.Columns.Remove(CriColumn); CriHC.Width = temp; }
                 if (Properties.Settings.Default.ListHit) { MdmgHC.Width = new GridLength(62); } else { CombatantView.Columns.Remove(HColumn); MdmgHC.Width = temp; }
             }
@@ -425,7 +283,7 @@ namespace OverParse
         private void Panic(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             try { Directory.CreateDirectory("ErrorLogs"); }
-            catch { MessageBox.Show("OverParse has failed to create the directory: <ErrorLogs>"); }
+            catch { MessageBox.Show("PIGNUMBERS has failed to create the directory: <ErrorLogs>"); }
             string datetime = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
             string filename = $"ErrorLogs/ErrorLogs - {datetime}.txt";
             string errorMessage1 = string.Format("{0}", e.Exception.Source);
@@ -540,7 +398,11 @@ namespace OverParse
             if (encounterlog == null) { return; }
             if (Properties.Settings.Default.Clock) { Datetime.Content = DateTime.Now.ToString("HH:mm:ss.ff"); }
 
-            encounterlog.UpdateLog(this, null);
+            if(encounterlog.UpdateLog(this, null)) {
+                EndEncounter_Click(null, null);
+                EncounterStatus.Content = encounterlog.LogStatus();
+                return;
+            }
             EncounterStatus.Content = encounterlog.LogStatus();
 
             // get a copy of the right combatants
@@ -567,179 +429,16 @@ namespace OverParse
             Combatant stealActiveTimeDummy = workingList.FirstOrDefault();
             if (stealActiveTimeDummy != null) { elapsed = stealActiveTimeDummy.ActiveTime; }
 
-            // create and sort dummy AIS combatants
-            if (Properties.Settings.Default.SeparateAIS)
-            {
-                List<Combatant> pendingCombatants = new List<Combatant>();
 
-                foreach (Combatant c in workingList)
-                {
-                    if (!c.IsAlly)
-                        continue;
-                    if (c.AisDamage > 0)
-                    {
-                        Combatant AISHolder = new Combatant(c.ID, "AIS|" + c.Name, "AIS");
-                        List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.AISAttackIDs.Contains(a.ID)).ToList();
-                        c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        AISHolder.Attacks.AddRange(targetAttacks);
-                        AISHolder.ActiveTime = elapsed;
-                        pendingCombatants.Add(AISHolder);
-                    }
-                }
-                workingList.AddRange(pendingCombatants);
-            }
-
-            if (Properties.Settings.Default.SeparateDB)
-            {
-                List<Combatant> pendingDBCombatants = new List<Combatant>();
-
-                foreach (Combatant c in workingList)
-                {
-                    if (!c.IsAlly)
-                        continue;
-                    if (c.DBDamage > 0)
-                    {
-                        Combatant DBHolder = new Combatant(c.ID, "DB|" + c.Name, "DB");
-                        List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.DBAttackIDs.Contains(a.ID)).ToList();
-                        c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        DBHolder.Attacks.AddRange(targetAttacks);
-                        DBHolder.ActiveTime = elapsed;
-                        pendingDBCombatants.Add(DBHolder);
-                    }
-                }
-                workingList.AddRange(pendingDBCombatants);
-            }
-
-            if (Properties.Settings.Default.SeparateRide)
-            {
-                List<Combatant> pendingRideCombatants = new List<Combatant>();
-
-                foreach (Combatant c in workingList)
-                {
-                    if (!c.IsAlly)
-                        continue;
-                    if (c.RideDamage > 0)
-                    {
-                        Combatant RideHolder = new Combatant(c.ID, "Ride|" + c.Name, "Ride");
-                        List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.RideAttackIDs.Contains(a.ID)).ToList();
-                        c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        RideHolder.Attacks.AddRange(targetAttacks);
-                        RideHolder.ActiveTime = elapsed;
-                        pendingRideCombatants.Add(RideHolder);
-                    }
-                }
-                workingList.AddRange(pendingRideCombatants);
-            }
-
-            if (Properties.Settings.Default.SeparatePwp)
-            {
-                List<Combatant> pendingPwpCombatants = new List<Combatant>();
-
-                foreach (Combatant c in workingList)
-                {
-                    if (!c.IsAlly)
-                        continue;
-                    if (c.PwpDamage > 0)
-                    {
-                        Combatant PhotonHolder = new Combatant(c.ID, "Pwp|" + c.Name, "Pwp");
-                        List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.PhotonAttackIDs.Contains(a.ID)).ToList();
-                        c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        PhotonHolder.Attacks.AddRange(targetAttacks);
-                        PhotonHolder.ActiveTime = elapsed;
-                        pendingPwpCombatants.Add(PhotonHolder);
-                    }
-                }
-                workingList.AddRange(pendingPwpCombatants);
-            }
-
-            if (Properties.Settings.Default.SeparateLsw)
-            {
-                List<Combatant> pendingLswCombatants = new List<Combatant>();
-
-                foreach (Combatant c in workingList)
-                {
-                    if (!c.IsAlly)
-                        continue;
-                    if (c.LswDamage > 0)
-                    {
-                        Combatant LswHolder = new Combatant(c.ID, "Lsw|" + c.Name, "Lsw");
-                        List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.LaconiumAttackIDs.Contains(a.ID)).ToList();
-                        c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        LswHolder.Attacks.AddRange(targetAttacks);
-                        LswHolder.ActiveTime = elapsed;
-                        pendingLswCombatants.Add(LswHolder);
-                    }
-                }
-                workingList.AddRange(pendingLswCombatants);
-            }
 
             // force resort here to neatly shuffle AIS parses back into place
             workingList.Sort((x, y) => y.ReadDamage.CompareTo(x.ReadDamage));
 
-            // make dummy zanverse combatant if necessary
-            int totalZanverse = workingList.Where(c => c.IsAlly == true).Sum(x => x.ZvsDamage);
-            int totalFinish = workingList.Where(c => c.IsAlly == true).Sum(x => x.HTFDamage);
-            int totalStatus = workingList.Where(c => c.IsAlly == true).Sum(x => x.DotDamage);
-            if (Properties.Settings.Default.SeparateFinish)
-            {
-                if (totalFinish > 0)
-                {
-                    Combatant finishHolder = new Combatant("99999998", "HTF Attacks", "HTF Attacks");
-                    foreach (Combatant c in workingList)
-                    {
-                        if (c.IsAlly)
-                        {
-                            List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.FinishAttackIDs.Contains(a.ID)).ToList();
-                            finishHolder.Attacks.AddRange(targetAttacks);
-                            c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        }
-                    }
-                    finishHolder.ActiveTime = elapsed;
-                    workingList.Add(finishHolder);
-                }
-            }
-
-            if (Properties.Settings.Default.SeparateZanverse)
-            {
-                if (totalZanverse > 0)
-                {
-                    Combatant zanverseHolder = new Combatant("99999999", "Zanverse", "Zanverse");
-                    foreach (Combatant c in workingList)
-                    {
-                        if (c.IsAlly)
-                        {
-                            List<Attack> targetAttacks = c.Attacks.Where(a => a.ID == "2106601422").ToList();
-                            zanverseHolder.Attacks.AddRange(targetAttacks);
-                            c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        }
-                    }
-                    zanverseHolder.ActiveTime = elapsed;
-                    workingList.Add(zanverseHolder);
-                }
-            }
-
-            if(Properties.Settings.Default.SeparateStatus)
-            {
-                if (totalStatus > 0)
-                {
-                    Combatant statusHolder = new Combatant("99999999", "Status Ailment", "Status Ailment");
-                    foreach (Combatant c in workingList)
-                    {
-                        if (c.IsAlly)
-                        {
-                            List<Attack> targetAttacks = c.Attacks.Where(a => Combatant.StatusAttackIDs.Contains(a.ID)).ToList();
-                            statusHolder.Attacks.AddRange(targetAttacks);
-                            c.Attacks = c.Attacks.Except(targetAttacks).ToList();
-                        }
-                    }
-                    statusHolder.ActiveTime = elapsed;
-                    workingList.Add(statusHolder);
-                }
-            }
+        
 
             // get group damage totals
             int totalDamage = workingList.Sum(x => x.Damage);
-            int totalReadDamage = workingList.Where(c => c.IsAlly || c.IsZanverse || c.IsStatus || c.IsFinish).Sum(x => x.Damage);
+            int totalReadDamage = workingList.Where(c => c.IsAlly).Sum(x => x.Damage);
 
             // dps calcs!
             foreach (Combatant c in workingList)
@@ -755,36 +454,10 @@ namespace OverParse
                     Combatant.maxShare = c.ReadDamage;
 
                 bool filtered = true;
-                if (Properties.Settings.Default.SeparateAIS || 
-                    Properties.Settings.Default.SeparateDB || 
-                    Properties.Settings.Default.SeparateRide || 
-                    Properties.Settings.Default.SeparatePwp || 
-                    Properties.Settings.Default.SeparateLsw)
-                {
-                    if (c.IsAlly && c.isTemporary == "no" && !HidePlayers.IsChecked)
+            
+                if ((c.IsAlly || !FilterPlayers.IsChecked) && (c.Damage > 0))
                         filtered = false;
-                    if (c.IsAlly && c.isTemporary == "AIS" && !HideAIS.IsChecked)
-                        filtered = false;
-                    if (c.IsAlly && c.isTemporary == "DB" && !HideDB.IsChecked)
-                        filtered = false;
-                    if (c.IsAlly && c.isTemporary == "Ride" && !HideRide.IsChecked)
-                        filtered = false;
-                    if (c.IsAlly && c.isTemporary == "Pwp" && !HidePwp.IsChecked)
-                        filtered = false;
-                    if (c.IsAlly && c.isTemporary == "Lsw" && !HideLsw.IsChecked)
-                        filtered = false;
-                    if (c.IsZanverse)
-                        filtered = false;
-                    if (c.IsStatus)
-                        filtered = false;
-                    if (c.IsFinish)
-                        filtered = false;
-                }
-                else
-                {
-                    if ((c.IsAlly || c.IsZanverse || c.IsStatus || c.IsFinish || !FilterPlayers.IsChecked) && (c.Damage > 0))
-                        filtered = false;
-                }
+                
 
                 if (!filtered && c.Damage > 0)
                 {
@@ -820,14 +493,14 @@ namespace OverParse
                 if (totalDPS > 0)
                     EncounterStatus.Content += $" - Total : {totalDamage.ToString("N0")}" + $" - {totalDPS.ToString("N0")} DPS";
 
-                if (!Properties.Settings.Default.SeparateZanverse)
-                    EncounterStatus.Content += $" - Zanverse : {totalZanverse.ToString("N0")}";
+                //if (!Properties.Settings.Default.SeparateZanverse)
+                //    EncounterStatus.Content += $" - Zanverse : {totalZanverse.ToString("N0")}";
 
                 lastStatus = EncounterStatus.Content.ToString();
             }
 
-            // autoend
-            if (encounterlog.running)
+            // autoend //we do this earlier now and also its broken wen we do it earlier kinda basically a mess
+           /* if (encounterlog.running)
             {
                 if (Properties.Settings.Default.AutoEndEncounters)
                 {
@@ -838,7 +511,7 @@ namespace OverParse
                         EndEncounter_Click(null, null);
                     }
                 }
-            }
+            }*/
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
@@ -865,17 +538,9 @@ namespace OverParse
                 }
             }
 
-            encounterlog.WriteLog();
+        //    encounterlog.WriteLog();
 
             Properties.Settings.Default.Save();
-        }
-
-
-        private void OpenRecentLog_Click(object sender, RoutedEventArgs e)
-        {
-            string filename = sessionLogFilenames[SessionLogs.Items.IndexOf((e.OriginalSource as MenuItem))];
-            //attempting to open
-            Process.Start(Directory.GetCurrentDirectory() + "\\" + filename);
         }
 
         private void Minimize_Click(object sender, RoutedEventArgs e) => WindowState = WindowState.Minimized;
@@ -912,7 +577,7 @@ namespace OverParse
             AlwaysOnTop.IsChecked = !AlwaysOnTop.IsChecked;
             IntPtr wasActive = WindowsServices.GetForegroundWindow();
 
-            // hack for activating overparse window
+            // hack for activating PIGNUMBERS window
             this.WindowState = WindowState.Minimized;
             this.Show();
             this.WindowState = WindowState.Normal;

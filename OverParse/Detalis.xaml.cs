@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace OverParse
+namespace PIGNUMBERS
 {
     /// <summary>
     /// Detalis.xaml の相互作用ロジック
@@ -17,7 +17,6 @@ namespace OverParse
             Damage.Content = data.ReadDamage;
             Damaged.Content = data.ReadDamaged;
             DPS.Content = data.ReadDPS;
-            JA.Content = data.WJAPercent;
             Critical.Content = data.WCRIPercent;
             Max.Content = data.MaxHitdmg;
             Atk.Content = data.MaxHit;
