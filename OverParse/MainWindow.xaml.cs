@@ -159,15 +159,14 @@ namespace NGSParser
             try
             {
                 WebClient client = new WebClient();
-                Stream stream = File.Open("skills.csv", FileMode.Open);
+                client.DownloadFile("https://github.com/mirumizure/ngsparse-summary/raw/master/OverParse/skills.csv", ""skills_en.csv"");
+                //Stream stream = File.Open("skills.csv", FileMode.Open);
+                Stream stream = File.Open("skills_en.csv", FileMode.Open);
                 using (StreamReader sr = new StreamReader(stream))
                 {
-                  
-
                     string line;
                     while ((line = sr.ReadLine()) != null) {
                         tmp_skills.Add(line);
-
                     }
                 }
                 client.Dispose();
@@ -502,6 +501,8 @@ namespace NGSParser
                 lastStatus = EncounterStatus.Content.ToString();
                 // Console.WriteLine(lastStatus);
 
+
+                //the automatic timer, need to add adjustable timeout yet
                 int unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
                 Console.WriteLine(unixTimestamp);
                 if ((unixTimestamp - Log.newTimestamp) >= Properties.Settings.Default.EncounterTimeout) //wait for 10secs
