@@ -2,7 +2,7 @@
 using System.Runtime.InteropServices;
 using System.Text;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     public static class WindowsServices
     {

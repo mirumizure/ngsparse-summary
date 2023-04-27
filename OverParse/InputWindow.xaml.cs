@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     public partial class InputWindow : Window
     {

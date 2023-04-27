@@ -15,7 +15,7 @@ using System.Windows.Threading;
 using NHotkey;
 using NHotkey.Wpf;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     // TODO: Code Optimization
     public partial class MainWindow : Window
@@ -56,12 +56,12 @@ namespace PIGNUMBERS
                 RenderOptions.ProcessRenderMode = RenderMode.Default;
             }
 
-        /*    try { Directory.CreateDirectory("Logs"); }
+            try { Directory.CreateDirectory("Logs"); }
             catch
             {
-                MessageBox.Show("PIGNUMBERS cannot save logs at the moment. \n\nPlease check that you are running PIGNUMBERS as an administrator or that your account has read/write access to this directory", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show("NGSParser cannot save logs at the moment. \n\nPlease check that you are running NGSParser as an administrator or that your account has read/write access to this directory", "NGSParser Setup", MessageBoxButton.OK, MessageBoxImage.Error);
                 Application.Current.Shutdown();
-            }*/
+            }
 
             //Directory.CreateDirectory("Debug");
 
@@ -73,13 +73,13 @@ namespace PIGNUMBERS
             //Console.SetOut(streamwriter);
             //Console.SetError(streamwriter);
 
-            //Console.WriteLine("PIGNUMBERS V." + Assembly.GetExecutingAssembly().GetName().Version);
+            //Console.WriteLine("NGSParser V." + Assembly.GetExecutingAssembly().GetName().Version);
 
           /*  if (Properties.Settings.Default.UpgradeRequired && !Properties.Settings.Default.ResetInvoked)
             {
                 //Console.WriteLine("Upgrading settings");
                 Properties.Settings.Default.Upgrade();
-                Properties.Settings.Default.UpgradeRequired = false;
+                Properties.Settings.Default.UpgradeRequired = falsWe;
             }*/
 
             Properties.Settings.Default.ResetInvoked = false;
@@ -123,7 +123,6 @@ namespace PIGNUMBERS
          
             AlwaysOnTop.IsChecked = Properties.Settings.Default.AlwaysOnTop;
             AutoHideWindow.IsChecked = Properties.Settings.Default.AutoHideWindow;
-
             EncounterManualMode.IsChecked = Properties.Settings.Default.ManualMode;
 
             ShowDamageGraph.IsChecked = Properties.Settings.Default.ShowDamageGraph; ShowDamageGraph_Click(null, null);
@@ -150,7 +149,7 @@ namespace PIGNUMBERS
             }
             catch
             {
-                MessageBox.Show("Hot keys are currently not working for this instance of PIGNUMBERS. \n\nPlease check that you are not running multiple instances of PIGNUMBERS", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Hot keys are currently not working for this instance of NGSParser. \n\nPlease check that you are not running multiple instances of NGSParser", "NGSParser Setup", MessageBoxButton.OK, MessageBoxImage.Information);
             }
 
             List<String> tmp_skills = new List<String>();
@@ -180,8 +179,6 @@ namespace PIGNUMBERS
                 
             }
            
-        
-
             Console.WriteLine("Parsing skills.csv");
             foreach (string s in tmp_skills)
             {
@@ -206,7 +203,7 @@ namespace PIGNUMBERS
             //Initializing inactiveTimer
             System.Windows.Threading.DispatcherTimer inactiveTimer = new System.Windows.Threading.DispatcherTimer();
             inactiveTimer.Tick += new EventHandler(HideIfInactive);
-            inactiveTimer.Interval = TimeSpan.FromMilliseconds(200);
+            inactiveTimer.Interval = TimeSpan.FromMilliseconds(200); //wait for 30secs before stopping
             inactiveTimer.Start();
 
             //Initializing logCheckTimer
@@ -214,6 +211,8 @@ namespace PIGNUMBERS
             logCheckTimer.Tick += new EventHandler(CheckForNewLog);
             logCheckTimer.Interval = new TimeSpan(0, 0, 1);
             logCheckTimer.Start();
+
+            
         }
 
         private void HideIfInactive(object sender, EventArgs e)
@@ -222,7 +221,7 @@ namespace PIGNUMBERS
                 return;
 
             string title = WindowsServices.GetActiveWindowTitle();
-            string[] relevant = { "PIGNUMBERS", "PIGNUMBERS Setup", "PIGNUMBERS Error", "Encounter Timeout", "Phantasy Star Online 2", "PHANTASY STAR ONLINE 2 NEW GENESIS" };
+            string[] relevant = { "NGSParser", "NGSParser Setup", "NGSParser Error", "Encounter Timeout", "Phantasy Star Online 2", "PHANTASY STAR ONLINE 2 NEW GENESIS" };
 
             if (!relevant.Contains(title))
             {
@@ -250,7 +249,7 @@ namespace PIGNUMBERS
 
             if (log.Name != encounterlog.filename)
             {
-                //Console.WriteLine($"Found a new log file ({log.Name}), switching...");
+                Console.WriteLine($"Found a new log file ({log.Name}), switching...");
                 encounterlog = new Log(Properties.Settings.Default.Path);
             }
         }
@@ -283,7 +282,7 @@ namespace PIGNUMBERS
         private void Panic(object sender, System.Windows.Threading.DispatcherUnhandledExceptionEventArgs e)
         {
             try { Directory.CreateDirectory("ErrorLogs"); }
-            catch { MessageBox.Show("PIGNUMBERS has failed to create the directory: <ErrorLogs>"); }
+            catch { MessageBox.Show("NGSParser has failed to create the directory: <ErrorLogs>"); }
             string datetime = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
             string filename = $"ErrorLogs/ErrorLogs - {datetime}.txt";
             string errorMessage1 = string.Format("{0}", e.Exception.Source);
@@ -397,15 +396,19 @@ namespace PIGNUMBERS
         {
             if (encounterlog == null) { return; }
             if (Properties.Settings.Default.Clock) { Datetime.Content = DateTime.Now.ToString("HH:mm:ss.ff"); }
+            /*
+                        if(encounterlog.UpdateLog(this, null)) {
+                            EndEncounter_Click(null, null);
+                            EncounterStatus.Content = encounterlog.LogStatus();
+                            return;
+                        }
+                        EncounterStatus.Content = encounterlog.LogStatus();
+            */
+            // get a copy of the right combatants
 
-            if(encounterlog.UpdateLog(this, null)) {
-                EndEncounter_Click(null, null);
-                EncounterStatus.Content = encounterlog.LogStatus();
-                return;
-            }
+            encounterlog.UpdateLog(this, null);
             EncounterStatus.Content = encounterlog.LogStatus();
 
-            // get a copy of the right combatants
             List<Combatant> targetList = (encounterlog.running ? encounterlog.combatants : lastCombatants);
             workingList.Clear();
             foreach (Combatant c in targetList)
@@ -468,7 +471,7 @@ namespace PIGNUMBERS
 
             // status pane updates
             EncounterIndicator.Fill = new SolidColorBrush(Color.FromArgb(192, 255, 128, 128));
-            EncounterStatus.Content = encounterlog.LogStatus();
+            // EncounterStatus.Content = encounterlog.LogStatus();
 
             if (encounterlog.valid && encounterlog.notEmpty)
             {
@@ -497,6 +500,16 @@ namespace PIGNUMBERS
                 //    EncounterStatus.Content += $" - Zanverse : {totalZanverse.ToString("N0")}";
 
                 lastStatus = EncounterStatus.Content.ToString();
+                // Console.WriteLine(lastStatus);
+
+                int unixTimestamp = (int)DateTime.UtcNow.Subtract(new DateTime(1970, 1, 1)).TotalSeconds;
+                Console.WriteLine(unixTimestamp);
+                if ((unixTimestamp - Log.newTimestamp) >= Properties.Settings.Default.EncounterTimeout) //wait for 10secs
+                {
+                    //Automatically ending an encounter
+                    EndEncounter_Click(null, null);
+                }
+
             }
 
             // autoend //we do this earlier now and also its broken wen we do it earlier kinda basically a mess
@@ -538,7 +551,7 @@ namespace PIGNUMBERS
                 }
             }
 
-        //    encounterlog.WriteLog();
+            encounterlog.WriteLog();
 
             Properties.Settings.Default.Save();
         }
@@ -557,6 +570,7 @@ namespace PIGNUMBERS
             EndEncounter_Click(null, null);
             e.Handled = true;
         }
+
 
         public void EndEncounterNoLog_Key(object sender, HotkeyEventArgs e)
         {
@@ -577,7 +591,7 @@ namespace PIGNUMBERS
             AlwaysOnTop.IsChecked = !AlwaysOnTop.IsChecked;
             IntPtr wasActive = WindowsServices.GetForegroundWindow();
 
-            // hack for activating PIGNUMBERS window
+            // hack for activating NGSParser window
             this.WindowState = WindowState.Minimized;
             this.Show();
             this.WindowState = WindowState.Normal;

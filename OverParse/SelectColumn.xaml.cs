@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     /// <summary>
     /// SelectColumn.xaml の相互作用ロジック

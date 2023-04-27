@@ -7,13 +7,13 @@ using System.Windows;
 // アセンブリに関する一般情報は以下の属性セットをとおして制御されます。
 // アセンブリに関連付けられている情報を変更するには、
 // これらの属性値を変更してください。
-[assembly: AssemblyTitle("pignumbers")]
-[assembly: AssemblyDescription("pignumbers")]
+[assembly: AssemblyTitle("NGSParser")]
+[assembly: AssemblyDescription("NGSParser")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("pignumbers")]
-[assembly: AssemblyProduct("pignumbers")]
-[assembly: AssemblyCopyright("pignumbers")]
-[assembly: AssemblyTrademark("pignumbers")]
+[assembly: AssemblyCompany("NGSParser")]
+[assembly: AssemblyProduct("NGSParser")]
+[assembly: AssemblyCopyright("NGSParser")]
+[assembly: AssemblyTrademark("NGSParser")]
 [assembly: AssemblyCulture("")]
 
 // ComVisible を false に設定すると、このアセンブリ内の型は COM コンポーネントから

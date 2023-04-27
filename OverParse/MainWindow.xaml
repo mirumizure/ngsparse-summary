@@ -1,17 +1,17 @@
-﻿<Window x:Class="PIGNUMBERS.MainWindow"
+﻿<Window x:Class="NGSParser.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-        xmlns:local="clr-namespace:PIGNUMBERS"
-        xmlns:Properties="clr-namespace:PIGNUMBERS.Properties"
+        xmlns:local="clr-namespace:NGSParser"
+        xmlns:Properties="clr-namespace:NGSParser.Properties"
         mc:Ignorable="d"
         WindowStyle="None" AllowsTransparency="True"
         Activated="Window_Activated" Deactivated="Window_Deactivated"
         ResizeMode="CanResizeWithGrip" StateChanged="Window_StateChanged"
         MouseDown="Window_MouseDown" Closing="Window_Closing"
         x:Name="TheWindow"
-        Title="PIGNUMBERS" Height="275" Width="670">
+        Title="NGSParser" Height="275" Width="670">
 
     <Window.Background>
         <SolidColorBrush x:Name="MainBack" Color="#FF0A0A0A" />
@@ -129,7 +129,6 @@
                     </MenuItem>-->
                     <Separator />
                     <MenuItem Style="{StaticResource submenu}" Header="Anonymize Names" IsCheckable="True" IsChecked="False" x:Name="AnonymizeNames" Click="AnonymizeNames_Click"/>
-                    <!--MenuItem Style="{StaticResource submenu}" Header="Hide All Other Players" IsCheckable="True" IsChecked="False" x:Name="Onlyme" Click="Onlyme_Click" /-->
                     <MenuItem Style="{StaticResource submenu}" Header="Change DPS Format" IsCheckable="True" IsChecked="False" x:Name="DPSFormat" Click="DPSFormat_Click" />
                     <MenuItem Style="{StaticResource submenu}" Header="Round Crit Percents" IsCheckable="True" IsChecked="False" x:Name="Nodecimal" Click="Nodecimal_Click" />
                     <MenuItem Style="{StaticResource submenu}" Header="Change Data Update interval" Click="ChangeInterval_Click" />
@@ -172,14 +171,10 @@
                     <MenuItem Header="Disable GPU Rendering" Click="CPUdraw_Click" x:Name="CPUdraw" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
                     <MenuItem Header="Show Updated Time (Debug)" Click="Clock_Click" x:Name="Clock" IsCheckable="True" IsChecked="False" Style="{StaticResource submenu}" />
                     <Separator />
-                    
-                    <MenuItem Header="Open Patreon" Click="Patreon_Click" Style="{StaticResource submenu}" />
-                    <MenuItem Header="Open Github" Click="Github_Click" Style="{StaticResource submenu}" />
-                    <Separator />
                     <!--MenuItem Style="{StaticResource submenu}" Header="Skip DLL Update" x:Name="Skipdll" Click="SkipPlugin_Click" /-->
                     <MenuItem Style="{StaticResource submenu}" Header="Reselect pso2_bin..." x:Name="ResetLogFolder" Click="ResetLogFolder_Click"/>
                     
-                    <MenuItem Style="{StaticResource submenu}" Header="Reset PIGNUMBERS..." x:Name="Reset" Click="ResetPIGNUMBERS"/>
+                    <MenuItem Style="{StaticResource submenu}" Header="Reset NGSParser..." x:Name="Reset" Click="ResetNGSParser"/>
                 </MenuItem>
             </Menu>
             <Label x:Name="Datetime" Foreground="#FFFFFFFF" Padding="3,3,3,3" Margin="230,0,0,0" FontSize="12" VerticalAlignment="Top" HorizontalAlignment="Left"/>

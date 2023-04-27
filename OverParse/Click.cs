@@ -8,7 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Interop;
 using System.Windows.Media;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     public partial class MainWindow : Window
     {
@@ -23,7 +23,7 @@ namespace PIGNUMBERS
             encounterlog.backupCombatants = encounterlog.combatants;
 
             List<Combatant> workingListCopy = new List<Combatant>();
-          /*  foreach (Combatant c in workingList)
+           foreach (Combatant c in workingList)
             {
                 Combatant temp2 = new Combatant(c.ID, c.Name, c.isTemporary);
                 foreach (Attack a in c.Attacks)
@@ -32,11 +32,11 @@ namespace PIGNUMBERS
                 temp2.ActiveTime = c.ActiveTime;
                 temp2.PercentReadDPS = c.PercentReadDPS;
                 workingListCopy.Add(temp2);
-            }*/
+            }
             //Saving last combatant list"
             lastCombatants = encounterlog.combatants;
             encounterlog.combatants = workingListCopy;
-       //     string filename = encounterlog.WriteLog();
+            string filename = encounterlog.WriteLog();
         /*    if (filename != null)
             {
                 if ((SessionLogs.Items[0] as MenuItem).Name == "SessionLogPlaceholder")
@@ -118,7 +118,7 @@ namespace PIGNUMBERS
         private void ChangeInterval_Click(object sender, RoutedEventArgs e)
         {
             AlwaysOnTop.IsChecked = false;
-            InputWindow input = new InputWindow("PIGNUMBERS", "Changes the file reading interval, min=50(ms) \nRecommended to leave this at default 200ms", Properties.Settings.Default.Updateinv.ToString()) { Owner = this };
+            InputWindow input = new InputWindow("NGSParser", "Changes the file reading interval, min=50(ms) \nRecommended to leave this at default 200ms", Properties.Settings.Default.Updateinv.ToString()) { Owner = this };
             input.ShowDialog();
 
             if (Int32.TryParse(input.ResultText, out int x))
@@ -289,7 +289,7 @@ namespace PIGNUMBERS
         {
             if (AutoHideWindow.IsChecked && Properties.Settings.Default.AutoHideWindowWarning)
             {
-                MessageBox.Show("Hides the PIGNUMBERS window. Use ALT+TAB or click the taskbar icon to display.", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Hides the NGSParser window. Use ALT+TAB or click the taskbar icon to display.", "NGSParser Setup", MessageBoxButton.OK, MessageBoxImage.Information);
                 Properties.Settings.Default.AutoHideWindowWarning = false;
             }
             Properties.Settings.Default.AutoHideWindow = AutoHideWindow.IsChecked;
@@ -303,7 +303,7 @@ namespace PIGNUMBERS
         private void About_Click(object sender, RoutedEventArgs e)
         {
             var version = System.Reflection.Assembly.GetExecutingAssembly().GetName().Version;
-            MessageBox.Show($"PIGNUMBERS v{version} PIG.", "PIGNUMBERS");
+            MessageBox.Show($"NGSParser based by Lapig's PIGNUMBERS fork of OverParse.", "NGSParser");
         }
 
         private void LowResources_Click(object sender, RoutedEventArgs e)
@@ -312,7 +312,7 @@ namespace PIGNUMBERS
             if (Properties.Settings.Default.LowResources)
             {
                 thisProcess.PriorityClass = ProcessPriorityClass.Idle;
-                MessageBox.Show("Sets process priority to low. \nUse this if your computer encounters slow downs while running PIGNUMBERS.", "PIGNUMBERS");
+                MessageBox.Show("Sets process priority to low. \nUse this if your computer encounters slow downs while running NGSParser.", "NGSParser");
             }
             else
             {
@@ -326,7 +326,7 @@ namespace PIGNUMBERS
             if (Properties.Settings.Default.CPUdraw)
             {
                 RenderOptions.ProcessRenderMode = RenderMode.SoftwareOnly;
-                MessageBox.Show("Delegates graphic rendering to CPU. \nIs effective on low end graphics cards.", "PIGNUMBERS");
+                MessageBox.Show("Delegates graphic rendering to CPU. \nIs effective on low end graphics cards.", "NGSParser");
             }
             else
             {
@@ -353,9 +353,9 @@ namespace PIGNUMBERS
             EndEncounterNoLog_Click(this, null);
         }
 
-        private void ResetPIGNUMBERS(object sender, RoutedEventArgs e)
+        private void ResetNGSParser(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult result = MessageBox.Show("Want to reset PIGNUMBERS? \nSettings are erased but logs are not.", "PIGNUMBERS Setup", MessageBoxButton.YesNo, MessageBoxImage.Information);
+            MessageBoxResult result = MessageBox.Show("Want to reset NGSParser? \nSettings are erased but logs are not.", "NGSParser Setup", MessageBoxButton.YesNo, MessageBoxImage.Information);
             if (result != MessageBoxResult.Yes)
                 return;
 
@@ -376,7 +376,7 @@ namespace PIGNUMBERS
             English.IsChecked = true;
             TransitionalChinese.IsChecked = false;
             Japanese.IsChecked = false;
-            MessageBox.Show("Please restart PIGNUMBERS to reset your language.", "Message");
+            MessageBox.Show("Please restart NGSParser to reset your language.", "Message");
         }
 
         private void SelectTransitionalChinese(object sender, RoutedEventArgs e)
@@ -387,7 +387,7 @@ namespace PIGNUMBERS
             English.IsChecked = false;
             TransitionalChinese.IsChecked = true;
             Japanese.IsChecked = false;
-            MessageBox.Show("Please restart PIGNUMBERS to reset your language.", "Message");
+            MessageBox.Show("Please restart NGSParser to reset your language.", "Message");
         }
 
         private void SelectJapanese(object sender, RoutedEventArgs e)
@@ -398,7 +398,7 @@ namespace PIGNUMBERS
             English.IsChecked = false;
             TransitionalChinese.IsChecked = false;
             Japanese.IsChecked = true;
-            MessageBox.Show("Please restart PIGNUMBERS to reset your language.", "Message");
+            MessageBox.Show("Please restart NGSParser to reset your language.", "Message");
         }
 */
     }

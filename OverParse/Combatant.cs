@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Windows.Media;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     // Handles the combat data assignments
     public class Combatant
@@ -77,8 +77,6 @@ namespace PIGNUMBERS
         public string MaxHitID  => GetMaxHitID();  // Max hit attack ID
         public string MaxHitdmg => GetMaxHitdmg(); // Max hit numbers stringified 
         
-        public string JAPercent  => GetJAPercent();  // Just Attack % in decimal point of 0|2
-        public string WJAPercent => GetWJAPercent(); // Just Attack % in format of 00.00
 
         public string CRIPercent  => GetCRIPercent();  // Critical Rate % in decimal point of 0|2
         public string WCRIPercent => GetWCRIPercent(); // Critical Rate % in format of 00.00
@@ -142,13 +140,13 @@ namespace PIGNUMBERS
         }
 
         // Fetch the technique "Zanverse" ID
-        private IEnumerable<PIGNUMBERS.Attack> GetZanverseID() 
+        private IEnumerable<NGSParser.Attack> GetZanverseID() 
         {
             return Attacks.Where(a => a.ID == "2106601422"); // Zanverse
         }
 
         // Fetch the attack ID
-        private IEnumerable<PIGNUMBERS.Attack> GetAttackID(string[] attackID) 
+        private IEnumerable<NGSParser.Attack> GetAttackID(string[] attackID) 
         {
             return Attacks.Where(a => attackID.Contains(a.ID));
         }
@@ -160,7 +158,7 @@ namespace PIGNUMBERS
         }
         
         // Fetch the total Damage Dealt value [ Use after (GetAttackID) function ]
-        private int GetDamageDealt(IEnumerable<PIGNUMBERS.Attack> attackID) 
+        private int GetDamageDealt(IEnumerable<NGSParser.Attack> attackID) 
         {
             return attackID.Sum(x => x.Damage);
         }
@@ -316,21 +314,6 @@ namespace PIGNUMBERS
             }
         }
 
-        // Returns the Just Attack Percentage in "00.00"
-        private string GetWJAPercent() 
-        {
-            IEnumerable<Attack> totalJA = Attacks.Where(a => !MainWindow.ignoreskill.Contains(a.ID));
-
-            if (totalJA.Any())
-            {
-                Double averageJA = totalJA.Average(x => x.JA) * 100;
-                return averageJA.ToString("00.00");
-            }
-            else
-            {
-                return "00.00";
-            }
-        }
 
         // Returns the Critical Rate Percentange
         private string GetCRIPercent()
@@ -475,13 +458,13 @@ namespace PIGNUMBERS
         }
 
         // Fetch the Just Attack value [ Use after (GetAttackID) function ]
-        private string GetJAValue(IEnumerable<PIGNUMBERS.Attack> attackID) 
+        private string GetJAValue(IEnumerable<NGSParser.Attack> attackID) 
         {
             return (attackID.Average(x => x.JA) * 100).ToString("N2");
         }
 
         // Fetch the Critical Attack value [ Use after (GetAttackID) function ]
-        private string GetCritValue(IEnumerable<PIGNUMBERS.Attack> attackID) 
+        private string GetCritValue(IEnumerable<NGSParser.Attack> attackID) 
         {
             return (attackID.Average(x => x.Cri) * 100).ToString("N2");    
         }

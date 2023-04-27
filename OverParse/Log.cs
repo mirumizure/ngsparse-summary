@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Windows;
 
-namespace PIGNUMBERS
+namespace NGSParser
 {
     // Handles the logging section of the parser.
     // TODO: Optimise the rest of the codes
@@ -40,10 +40,10 @@ namespace PIGNUMBERS
             // Setup first time warning
           /*  if (Properties.Settings.Default.BanWarning)
             {
-                MessageBoxResult panicResult = MessageBox.Show("PIGNUMBERS is a 3rd-party tool that breaks PSO2's Terms and Conditions."
+                MessageBoxResult panicResult = MessageBox.Show("NGSParser is a 3rd-party tool that breaks PSO2's Terms and Conditions."
                                                              + "SEGA has confirmed in an official announcement that accounts found using parsing tools may be banned.\n\n"
-                                                             + "If account safety is your first priority, do NOT use PIGNUMBERS. You use this tool entirely at your own risk.\n\n"
-                                                             + "Would you like to continue with setup?", "PIGNUMBERS Setup", MessageBoxButton.YesNo, MessageBoxImage.Question);
+                                                             + "If account safety is your first priority, do NOT use NGSParser. You use this tool entirely at your own risk.\n\n"
+                                                             + "Would you like to continue with setup?", "NGSParser Setup", MessageBoxButton.YesNo, MessageBoxImage.Question);
                 if (panicResult == MessageBoxResult.No)
                 {
                     Environment.Exit(-1);
@@ -59,11 +59,11 @@ namespace PIGNUMBERS
                 {
                     MessageBox.Show("That doesn't appear to be a valid pso2_bin directory.\n\n" 
                                   + "If you installed the game using default settings, it will probably be in C:\\PHANTASYSTARONLINE2\\pso2_bin\\. " 
-                                  + "Otherwise, find the location you installed to.", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Warning);
+                                  + "Otherwise, find the location you installed to.", "NGSParser Setup", MessageBoxButton.OK, MessageBoxImage.Warning);
                 }
                 else
                 {
-                    MessageBox.Show("Please select your pso2_bin directory. PIGNUMBERS uses this to read your damage logs.\n\n", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("Please select your pso2_bin directory. NGSParser uses this to read your damage logs.\n\n", "NGSParser Setup", MessageBoxButton.OK, MessageBoxImage.Information);
                     nagMe = true;
                 }
 
@@ -82,8 +82,8 @@ namespace PIGNUMBERS
                 else
                 {
                     // Canceled out of directory picker
-                    MessageBox.Show("PIGNUMBERS needs a valid PSO2 installation to function.\n" 
-                                  + "The application will now close.", "PIGNUMBERS Setup", MessageBoxButton.OK, MessageBoxImage.Information);
+                    MessageBox.Show("NGSParser needs a valid PSO2 installation to function.\n" 
+                                  + "The application will now close.", "NGSParser Setup", MessageBoxButton.OK, MessageBoxImage.Information);
                     Environment.Exit(-1); // ABORT ABORT ABORT
                     break;
                 }
@@ -102,17 +102,17 @@ namespace PIGNUMBERS
             Properties.Settings.Default.FirstRun = false; // Passed first time setup, skipping above on future launch
 
             /* ---------------------------------------------------------------------------------------------------- */ 
-
+            /*
             if (!logDirectory.Exists) 
             {
                 logDirectory.Create();
                // return; 
             }                 // Abort if damage log directory doesn't exist - why
             if (logDirectory.GetFiles().Count() == 0) { return; } // this is not really necessary but also probably not a problem //todo ok it kinda is bad
-
+            */
             notEmpty = true; // Log directory is not empty!
 
-           /* FileInfo log = logDirectory.GetFiles().Where(f => Regex.IsMatch(f.Name, @"\d+\.")).OrderByDescending(f => f.Name).First();
+            FileInfo log = logDirectory.GetFiles().Where(f => Regex.IsMatch(f.Name, @"\d+\.")).OrderByDescending(f => f.Name).First(); //get latest file
             filename = log.Name; // Reading from {log.DirectoryName}\{log.Name}")
 
             FileStream fileStream = File.Open(log.DirectoryName + "\\" + log.Name, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
@@ -121,20 +121,149 @@ namespace PIGNUMBERS
 
             string existingLines = logReader.ReadToEnd(); // Gotta get the dummy line for current player name
             string[] result = existingLines.Split('\n');
-            foreach (string s in result)
+            /* foreach (string s in result)
             {
                 if (s == "")
                     continue;
                 string[] parts = s.Split(',');
-                if (parts[0] == "0" && parts[3] == "YOU")
+                /*if (parts[0] == "0" && parts[3] == "YOU")
                 {
                     Hacks.currentPlayerID = parts[2]; // Found existing active player ID
                 }
-            }*/
+            } */
         }
 
         /* CLASS FUNCTIONS */
-     
+
+        /* LOG TEMP*/
+        // Writes combat data to log file
+        public string WriteLog()
+        {
+            if (combatants.Count != 0) // Players found
+            {
+                int elapsed = newTimestamp - startTimestamp;
+                TimeSpan timespan = TimeSpan.FromSeconds(elapsed);
+
+                // Logging the total time occured through out the encounter
+                int totalDamage = combatants.Where(c => c.IsAlly || c.IsStatus || c.IsZanverse).Sum(x => x.Damage);
+                double totalDPS = combatants.Where(c => c.IsAlly || c.IsStatus || c.IsZanverse).Sum(x => x.DPS);
+
+                string timer = timespan.ToString(@"mm\:ss");
+                string log = DateTime.Now.ToString("F") + " | " + timer + " | Total Damage: " + totalDamage.ToString("N0") + " dmg" + " | " + "Total DPS: " + totalDPS.ToString("N0") + Environment.NewLine + Environment.NewLine;
+
+                log += "[ Encounter Overview ]" + Environment.NewLine; // Title
+
+                foreach (Combatant c in combatants)
+                {
+                    if (c.IsAlly || c.IsStatus || c.IsZanverse)
+                    {
+                        log += Environment.NewLine + $"# {c.Name}" + Environment.NewLine + $"# Contrib: {c.PercentReadDPSReadout}% | Dealt: {c.ReadDamage.ToString("N0")} dmg | Taken: {c.Damaged.ToString("N0")} dmgd | {c.DPS.ToString("N0")} DPS | Critical: {c.WCRIPercent}% | Max: {c.MaxHitdmg} ({c.MaxHit})" + Environment.NewLine;
+                    }
+                }
+
+                log += Environment.NewLine + Environment.NewLine;
+
+                foreach (Combatant c in combatants)
+                {
+                    if (c.IsAlly || c.IsStatus || c.IsZanverse || true)
+                    {
+                        string header = $"[ {c.Name} - {c.PercentReadDPSReadout}% - {c.ReadDamage.ToString("N0")} dmg ]";
+                        log += header + Environment.NewLine + Environment.NewLine;
+
+                        List<string> attackNames = new List<string>();
+                        List<string> finishNames = new List<string>();
+                        List<string> statusNames = new List<string>();
+
+                        List<Tuple<string, List<int>, List<int>, List<int>>> attackData = new List<Tuple<string, List<int>, List<int>, List<int>>>();
+
+                        if (c.IsZanverse && Properties.Settings.Default.SeparateZanverse)
+                        {
+                            foreach (Combatant c2 in backupCombatants)
+                            {
+                                if (c2.ZvsDamage > 0)
+                                    attackNames.Add(c2.ID);
+                            }
+
+                            foreach (string s in attackNames)
+                            {
+                                Combatant targetCombatant = backupCombatants.First(x => x.ID == s);
+                                List<int> matchingAttacks = targetCombatant.Attacks.Where(a => a.ID == "2106601422").Select(a => a.Damage).ToList();
+                                List<int> jaPercents = c.Attacks.Where(a => a.ID == "2106601422").Select(a => a.JA).ToList();
+                                List<int> criPercents = c.Attacks.Where(a => a.ID == "2106601422").Select(a => a.Cri).ToList();
+                                attackData.Add(new Tuple<string, List<int>, List<int>, List<int>>(targetCombatant.Name, matchingAttacks, jaPercents, criPercents));
+                            }
+                        }
+                        else
+                        {
+                            foreach (Attack a in c.Attacks)
+                            {
+                                if (MainWindow.skillDict.ContainsKey(a.ID))
+                                    a.ID = MainWindow.skillDict[a.ID]; // these are getting disposed anyway, no 1 cur
+                                if (!attackNames.Contains(a.ID))
+                                    attackNames.Add(a.ID);
+                            }
+
+                            foreach (string s in attackNames)
+                            {
+                                // Choose damage from matching attacks
+                                List<int> matchingAttacks = c.Attacks.Where(a => a.ID == s).Select(a => a.Damage).ToList();
+                                List<int> jaPercents = c.Attacks.Where(a => a.ID == s).Select(a => a.JA).ToList();
+                                List<int> criPercents = c.Attacks.Where(a => a.ID == s).Select(a => a.Cri).ToList();
+                                attackData.Add(new Tuple<string, List<int>, List<int>, List<int>>(s, matchingAttacks, jaPercents, criPercents));
+                            }
+                        }
+
+                        attackData = attackData.OrderByDescending(x => x.Item2.Sum()).ToList();
+
+                        foreach (var i in attackData)
+                        {
+                            if (i.Item1 != "Taken")
+                            {
+                                double percent = i.Item2.Sum() * 100d / c.ReadDamage;
+
+                                string spacer = (percent >= 9) ? "" : " ";
+                                string paddedPercent = percent.ToString("00.00");
+
+                                string hits = i.Item2.Count().ToString("N0");
+                                string sum = i.Item2.Sum().ToString("N0");
+                                string min = i.Item2.Min().ToString("N0");
+                                string max = i.Item2.Max().ToString("N0");
+                                string avg = i.Item2.Average().ToString("N0");
+                                string cri = (i.Item4.Average() * 100).ToString("N2") ?? "null";
+
+                                log += $"{paddedPercent}% | {i.Item1} ({sum} dmg)" + Environment.NewLine;
+                                log += $"       |   Critical : {cri}%" + Environment.NewLine;
+                                log += $"       |   {hits} hits - {min} min, {avg} avg, {max} max" + Environment.NewLine;
+                            }
+                            else
+                            {
+                                string hits = i.Item2.Count().ToString("N0");
+
+                                log += "Number of hits taken: " + hits + Environment.NewLine;
+                            }
+                        }
+
+                        log += Environment.NewLine;
+                    }
+                }
+
+                log += "Instance IDs: " + String.Join(", ", instances.ToArray());
+
+                DateTime thisDate = DateTime.Now;
+                string directory = string.Format("{0:yyyy-MM-dd}", DateTime.Now);
+
+                Directory.CreateDirectory($"Logs/{directory}");
+                string datetime = string.Format("{0:yyyy-MM-dd_HH-mm-ss}", DateTime.Now);
+                string filename = $"Logs/{directory}/OverParse - {datetime}.txt";
+
+                File.WriteAllText(filename, log);
+                Console.WriteLine("Summary log written to " + filename);
+                return filename;
+            }
+
+            return null;
+        }
+
 
         // Returns log status messages
         public string LogStatus()
@@ -176,6 +305,7 @@ namespace PIGNUMBERS
                         string[] parts = str.Split(',');
                         if (parts.Length == 1) {
                             if (parts[0].Contains("end_encounter") && Properties.Settings.Default.ManualMode == true) 
+
                             {
                                 return true;
                             }
