@@ -1,9 +1,12 @@
 # PIGNUMBERS NGS Damage Parser
-A complete overhaul of OverParse, based on Remon-7L's design (forked from Tyrone's parser). 
-This is a standalone log reader and overlay tool. This tool shows damage statistics for you, the user, and your MPA in realtime, and provides detailed damage breakdowns for later analysis.
+A complete overhaul of OverParse, based on Remon-7L's design (forked from Tyrone's parser), and Lapig's compatibility fixes and closed-source plugin. 
+This is a standalone log reader and overlay tool. This tool shows damage statistics for you, the user, and your MPA in realtime, and (hopefully soon) restores detailed damage breakdowns for later analysis.
 
 ## Credits
 - [TyroneSama](https://github.com/TyroneSama/OverParse) for making the original version of OverParse.
+- [Lapig](https://github.com/Lapig/PIGNUMBERS) for adding compatibility to NGS
+
+This fork works with the alpha version of the parser plugin, but compatibility with updates is currently unknown.
 
 ## MIT License
 
