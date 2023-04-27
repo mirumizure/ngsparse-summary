@@ -1,9 +1,9 @@
 ﻿<?xml version='1.0' encoding='utf-8'?>
-<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="NGSParser.Properties" GeneratedClassName="Settings">
+<SettingsFile xmlns="http://schemas.microsoft.com/VisualStudio/2004/01/settings" CurrentProfile="(Default)" GeneratedClassNamespace="" GeneratedClassName="Settings">
   <Profiles />
   <Settings>
     <Setting Name="Path" Type="System.String" Scope="User">
-      <Value Profile="(Default)">C:\Program Files (x86)\SEGA\PHANTASYSTARONLINE2\pso2_bin</Value>
+      <Value Profile="(Default)" />
     </Setting>
     <Setting Name="LaunchMethod" Type="System.String" Scope="User">
       <Value Profile="(Default)">Unknown</Value>
